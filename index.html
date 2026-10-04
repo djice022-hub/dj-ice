@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DJ ICE - Animation & Sonorisation</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <!-- Chargement des icônes Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #800080;
+            --accent-gold: #d4af37;
+            --bg-color: #0d0b14;
+            --card-bg: rgba(26, 22, 37, 0.9);
+            --text-color: #f8fafc;
+            --text-muted: #a099b2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        header {
+            background: rgba(13, 11, 20, 0.95);
+            position: relative;
+            width: 100%;
+            border-bottom: 1px solid #2d243f;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1.2rem 1rem 1rem;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 0.8rem;
+        }
+
+        .logo-img {
+            max-height: 160px;
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.5));
+            transition: transform 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.02);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            width: 42px;
+            height: 42px;
+            background: var(--card-bg);
+            border: 1px solid #332849;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .social-icons a:hover {
+            color: var(--accent-gold);
+            border-color: var(--accent-gold);
+            transform: translateY(-3px);
+        }
+
+        .hero {
+            padding: 50px 20px 50px;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #a824a8, #d4af37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #800080, #d4af37);
+            color: #fff;
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .section {
+            padding: 40px 20px 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 2.5rem;
+            background: linear-gradient(135deg, #a824a8, #d4af37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent-gold);
+            margin: 1rem 0;
+        }
+
+        .service-card ul {
+            list-style: none;
+            text-align: left;
+            margin-top: 1rem;
+        }
+
+        .service-card ul li {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .single-events-box {
+            background: var(--card-bg);
+            border: 2px solid var(--primary-color);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .guarantees-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .guarantee-card {
+            background: var(--card-bg);
+            border: 1px solid #332849;
+            padding: 1.8rem 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .guarantee-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-gold);
+        }
+
+        .guarantee-icon {
+            font-size: 2.2rem;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+
+        .guarantee-card h4 {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .guarantee-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .location-box {
+            background: var(--card-bg);
+            border: 1px solid #332849;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 3rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cities-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: center;
+            margin: 1.5rem 0;
+        }
+
+        .city-tag {
+            background: #0d0b14;
+            border: 1px solid var(--accent-gold);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .contract-box {
+            background: var(--card-bg);
+            border: 2px dashed var(--accent-gold);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 3rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-form {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid #332849;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid #332849;
+            background-color: #0d0b14;
+            color: #fff;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            border-top: 1px solid #2d243f;
+            color: var(--text-muted);
+            margin-top: 4rem;
+        }
+
+        .legal-info {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .logo-img {
+                max-height: 120px;
+            }
+
+            .hero h1 {
+                font-size: 2.1rem;
+            }
+
+            .nav-links {
+                gap: 1.2rem;
+            }
+
+            .price {
+                font-size: 2.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <header>
+        <nav>
+            <div class="logo-container">
+                <img src="logo.png" alt="DJ ICE - Animation & Sonorisation" class="logo-img" onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='block';">
+                <h2 id="fallback-logo" style="display:none; color: var(--accent-gold); font-size: 2.2rem; font-weight: bold; letter-spacing: 2px;">DJ ICE</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#prestations">Tarifs</a></li>
+                <li><a href="#garanties">Garanties</a></li>
+                <li><a href="#secteur">Secteur</a></li>
+                <li><a href="#contrat">Contrat</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+
+            <div class="social-icons">
+                <a href="https://www.facebook.com/profile.php?id=61585953697891" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/djice_222/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>DJ ICE - Sonorisation & Animation</h1>
+        <p>Une ambiance sur-mesure et professionnelle pour vos événements.</p>
+        <a href="#contact" class="btn">Demander un Devis</a>
+    </section>
+
+    <section class="section">
+        
+        <div class="single-events-box">
+            <h3 style="font-size: 1.6rem; color: #fff; margin-bottom: 1rem;">🎉 Événements Pris en Charge</h3>
+            <p style="font-size: 1.3rem; font-weight: bold; color: var(--accent-gold);">
+                💍 Mariage &nbsp;|&nbsp; 🎂 Anniversaire &nbsp;|&nbsp; 🎧 Soirée Privée
+            </p>
+        </div>
+
+        <h2 id="prestations" class="section-title">Mes Tarifs & Formules</h2>
+        
+        <div class="services-grid">
+            <div class="service-card" style="border: 2px solid #800080;">
+                <h3>🎧 Formule 1 Jour</h3>
+                <div class="price">300 €</div>
+                <p style="color: var(--text-muted);">Idéal pour soirée privée, anniversaire ou événement d'un jour.</p>
+                <ul>
+                    <li>✓ Sonorisation & Éclairage complets</li>
+                    <li>✓ Animation musicale sur-mesure</li>
+                    <li>✓ Soirée dansante jusqu'à la fin</li>
+                    <li>✓ Playlists personnalisées</li>
+                </ul>
+                <a href="#contact" class="btn" style="margin-top: 1.5rem;">Réserver 1 Jour</a>
+            </div>
+
+            <div class="service-card" style="border: 2px solid #d4af37;">
+                <h3>💍 Formule 2 Jours</h3>
+                <div class="price">600 €</div>
+                <p style="color: var(--text-muted);">Parfait pour mariage ou week-end complet (soirée + lendemain).</p>
+                <ul>
+                    <li>✓ Prestation complète sur 2 jours</li>
+                    <li>✓ Vin d'honneur, repas & soirée</li>
+                    <li>✓ Matériel laissé sur place le 2ème jour</li>
+                    <li>✓ Mise en lumière d'ambiance</li>
+                </ul>
+                <a href="#contact" class="btn" style="margin-top: 1.5rem;">Réserver 2 Jours</a>
+            </div>
+        </div>
+
+        <div id="garanties" style="margin-top: 4rem;">
+            <h2 class="section-title">🛡️ Les Garanties DJ ICE</h2>
+            
+            <div class="guarantees-grid">
+                <div class="guarantee-card">
+                    <div class="guarantee-icon"><i class="fas fa-file-contract"></i></div>
+                    <h4>Contrat Officiel</h4>
+                    <p>Prestation réservée et garantie par un contrat clair et détaillé pour votre sécurité.</p>
+                </div>
+
+                <div class="guarantee-card">
+                    <div class="guarantee-icon"><i class="fas fa-sliders-h"></i></div>
+                    <h4>Matériel Professionnel</h4>
+                    <p>Équipement son & lumière haut de gamme, moderne et soigneusement entretenu.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="secteur" class="location-box">
+            <h3 style="font-size: 1.6rem; color: #fff; margin-bottom: 0.5rem;"><i class="fas fa-map-marker-alt" style="color: var(--accent-gold); margin-right: 8px;"></i> Zone d'Intervention</h3>
+            <p style="color: var(--text-muted);">Je me déplace directement sur le lieu de votre événement avec mon propre véhicule et l'ensemble du matériel de son et de lumière nécessaire.</p>
+            
+            <div class="cities-tags">
+                <span class="city-tag">Courchelettes</span>
+                <span class="city-tag">Férin</span>
+                <span class="city-tag">Douai</span>
+                <span class="city-tag">Corbehem</span>
+                <span class="city-tag">Lambres-lez-Douai</span>
+                <span class="city-tag">Vitry-en-Artois</span>
+                <span class="city-tag">Biache-Saint-Vaast</span>
+                <span class="city-tag">Pelves</span>
+                <span class="city-tag">Rœux</span>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--text-muted); font-style: italic;">(Secteurs environnants également pris en charge sur demande)</p>
+        </div>
+
+        <div id="contrat" class="contract-box">
+            <h3>📜 Contrat de Prestation</h3>
+            <p style="color: var(--text-muted); margin: 0.5rem 0 1.5rem;">Consultez et téléchargez le modèle de contrat pour vos réservations.</p>
+            <a href="contrat.pdf" target="_blank" class="btn">📄 Télécharger / Voir le Contrat (PDF)</a>
+        </div>
+
+    </section>
+
+    <!-- Formulaire de Contact -->
+    <section id="contact" class="section" style="padding-top: 0;">
+        <h2 class="section-title">Demande de Devis</h2>
+        
+        <form action="https://formspree.io/f/mwlpoerz" method="POST" class="contact-form">
+            <div class="form-group">
+                <label for="name">Nom / Prénom</label>
+                <input type="text" id="name" name="Nom" required placeholder="Votre nom">
+            </div>
+            <div class="form-group">
+                <label for="email">Adresse Email</label>
+                <input type="email" id="email" name="Email" required placeholder="votre@email.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="billing-address">Adresse de facturation</label>
+                <textarea id="billing-address" name="Adresse de facturation" rows="3" placeholder="Numéro, rue, code postal, ville..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="evenement">Type d'Événement</label>
+                <select id="evenement" name="Type d'evenement">
+                    <option value="Mariage">💍 Mariage</option>
+                    <option value="Anniversaire">🎂 Anniversaire</option>
+                    <option value="Soirée Privée">🎧 Soirée Privée</option>
+                    <option value="Autre">🎉 Autre événement</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="formule">Formule Souhaitée</label>
+                <select id="formule" name="Formule">
+                    <option value="1 Jour - 300 €">Formule 1 Jour - 300 €</option>
+                    <option value="2 Jours - 600 €">Formule 2 Jours - 600 €</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="message">Détails de l'événement</label>
+                <textarea id="message" name="Message" rows="5" required placeholder="Date, lieu..."></textarea>
+            </div>
+            <button type="submit" class="btn" style="width: 100%;">Envoyer la demande</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 DJ ICE - Tous droits réservés.</p>
+        <p class="legal-info">DJ ICE – Entreprise Individuelle | SIRET : 100 198 076 00018 | Courchelettes</p>
+        
+        <div class="social-icons" style="margin-top: 1.5rem;">
+            <a href="https://www.facebook.com/profile.php?id=61585953697891" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/djice_222/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.radius = Math.random() * 8 + 3;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.isGold = Math.random() > 0.4;
+                this.color = this.isGold ? '212, 175, 55' : '192, 38, 211';
+                this.alpha = Math.random() * 0.4 + 0.15;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${this.color}, ${this.alpha})`;
+                ctx.shadowBlur = 18;
+                ctx.shadowColor = `rgba(${this.color}, 0.8)`;
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 45; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+
+</body>
+</html>
