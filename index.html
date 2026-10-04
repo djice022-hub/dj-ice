@@ -133,7 +133,7 @@
         }
 
         .hero {
-            padding: 50px 20px 50px;
+            padding: 50px 20px 40px;
             text-align: center;
             max-width: 900px;
             margin: 0 auto;
@@ -151,7 +151,25 @@
         .hero p {
             font-size: 1.2rem;
             color: var(--text-muted);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Style pour le texte de présentation en haut */
+        .hero-intro {
+            background: var(--card-bg);
+            border: 1px solid #332849;
+            padding: 1.8rem 1.5rem;
+            border-radius: 14px;
+            text-align: center;
+            margin: 0 auto 2rem auto;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-intro p {
+            font-size: 1.05rem;
+            color: var(--text-color);
+            line-height: 1.7;
+            margin-bottom: 0;
         }
 
         .btn {
@@ -402,6 +420,14 @@
     <section class="hero">
         <h1>DJ ICE - Sonorisation & Animation</h1>
         <p>Une ambiance sur-mesure et professionnelle pour vos événements.</p>
+        
+        <!-- Texte de présentation placé ici, juste au-dessus du bouton -->
+        <div class="hero-intro">
+            <p>
+                DJ ICE vous invite à vous faire vivre une expérience musicale inoubliable en vous transportant à travers les décennies. Préparez-vous à danser sur les tubes emblématiques des années 80, 90, à revivre l'énergie des années 2000, à apprécier les hits des années 2010 et à découvrir les sons modernes de 2020 jusqu'à aujourd'hui. Un voyage musical qui ravira tous les amateurs de musique.
+            </p>
+        </div>
+
         <a href="#contact" class="btn">Demander un Devis</a>
     </section>
 
@@ -479,7 +505,7 @@
                 <span class="city-tag">Pelves</span>
                 <span class="city-tag">Rœux</span>
             </div>
-            <p style="font-size: 0.9rem; color: var(--text-muted); font-style: italic;"></p>
+            <p style="font-size: 0.9rem; color: var(--text-muted); font-style: italic;">(Secteurs environnants également pris en charge sur demande)</p>
         </div>
 
         <div id="contrat" class="contract-box">
