@@ -154,7 +154,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Style pour le texte de présentation en haut */
         .hero-intro {
             background: var(--card-bg);
             border: 1px solid #332849;
@@ -399,14 +398,14 @@
     <header>
         <nav>
             <div class="logo-container">
-                <img src="logo.png" alt="DJ ICE - Animation & Sonorisation" class="logo-img" onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='block';">
-                <h2 id="fallback-logo" style="display:none; color: var(--accent-gold); font-size: 2.2rem; font-weight: bold; letter-spacing: 2px;">DJ ICE</h2>
+                <img src="logo.png" alt="DJ ICE - Animation & Sonorisation" class="logo-img">
             </div>
             <ul class="nav-links">
                 <li><a href="#prestations">Tarifs</a></li>
                 <li><a href="#garanties">Garanties</a></li>
                 <li><a href="#secteur">Secteur</a></li>
                 <li><a href="#contrat">Contrat</a></li>
+                <li><a href="https://djice022-hub.github.io/Planning-de-Soir-e/" target="_blank" style="color: var(--accent-gold); font-weight: bold;"><i class="fas fa-calendar-alt"></i> Planning</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
 
@@ -421,7 +420,6 @@
         <h1>DJ ICE - Sonorisation & Animation</h1>
         <p>Une ambiance sur-mesure et professionnelle pour vos événements.</p>
         
-        <!-- Texte de présentation placé ici, juste au-dessus du bouton -->
         <div class="hero-intro">
             <p>
                 DJ ICE vous invite à vous faire vivre une expérience musicale inoubliable en vous transportant à travers les décennies. Préparez-vous à danser sur les tubes emblématiques des années 80, 90, à revivre l'énergie des années 2000, à apprécier les hits des années 2010 et à découvrir les sons modernes de 2020 jusqu'à aujourd'hui. Un voyage musical qui ravira tous les amateurs de musique.
@@ -509,9 +507,12 @@
         </div>
 
         <div id="contrat" class="contract-box">
-            <h3>📜 Contrat de Prestation</h3>
-            <p style="color: var(--text-muted); margin: 0.5rem 0 1.5rem;">Consultez et téléchargez le modèle de contrat pour vos réservations.</p>
-            <a href="contrat.pdf" target="_blank" class="btn">📄 Télécharger / Voir le Contrat (PDF)</a>
+            <h3>📜 Contrat & Planning de Soirée</h3>
+            <p style="color: var(--text-muted); margin: 0.5rem 0 1.5rem;">Consultez le contrat et préparez dès maintenant le programme musical de votre événement.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="contrat.pdf" target="_blank" class="btn">📄 Télécharger / Voir le Contrat (PDF)</a>
+                <a href="https://djice022-hub.github.io/Planning-de-Soir-e/" target="_blank" class="btn" style="background: linear-gradient(135deg, #d4af37, #800080);">✨ Préparer mon Planning</a>
+            </div>
         </div>
 
     </section>
