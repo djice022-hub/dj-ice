@@ -15,10 +15,14 @@
         :root {
             --primary-color: #800080;
             --accent-gold: #d4af37;
-            --bg-color: #0d0b14;
+            --bg-color: #030108;
             --card-bg: rgba(26, 22, 37, 0.9);
             --text-color: #f8fafc;
             --text-muted: #a099b2;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         * {
@@ -34,6 +38,100 @@
             line-height: 1.6;
             overflow-x: hidden;
             position: relative;
+            animation: bg-pulse 6s infinite alternate ease-in-out;
+        }
+
+        @keyframes bg-pulse {
+            0% { background-color: #030108; }
+            50% { background-color: #0d0317; }
+            100% { background-color: #06020c; }
+        }
+
+        /* --- EFFETS ET CONTOURS LUMINEUX DES CARTES --- */
+        .service-card, 
+        .guarantee-card, 
+        .hero-intro, 
+        .single-events-box, 
+        .location-box, 
+        .contract-box, 
+        .contact-form,
+        .music-style-card,
+        .step-card {
+            box-shadow: 0 0 25px rgba(128, 0, 128, 0.5), inset 0 0 15px rgba(212, 175, 55, 0.2);
+            border-color: var(--accent-gold);
+            animation: card-glow 3.5s infinite alternate ease-in-out;
+        }
+
+        @keyframes card-glow {
+            0% { box-shadow: 0 0 20px rgba(128, 0, 128, 0.4), inset 0 0 10px rgba(212, 175, 55, 0.1); }
+            100% { box-shadow: 0 0 35px rgba(212, 175, 55, 0.6), inset 0 0 20px rgba(128, 0, 128, 0.3); }
+        }
+
+        /* --- FAISCEAUX LASERS DYNAMIQUES EN ARRIÈRE-PLAN (VIOLET & OR) --- */
+        .laser-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .laser-beam {
+            position: absolute;
+            top: -20px;
+            width: 4px;
+            height: 1200px;
+            transform-origin: top center;
+            mix-blend-mode: screen;
+            opacity: 0.85;
+            filter: blur(2px);
+        }
+
+        /* Laser 1: Or (Gauche) */
+        .laser-beam:nth-child(1) {
+            left: 20%;
+            background: linear-gradient(to bottom, #ffffff, rgba(212, 175, 55, 0.9) 30%, transparent 80%);
+            box-shadow: 0 0 15px #d4af37, 0 0 30px #d4af37;
+            animation: laser-sweep1 4s infinite alternate ease-in-out;
+        }
+
+        /* Laser 2: Violet (Centre-Gauche) */
+        .laser-beam:nth-child(2) {
+            left: 40%;
+            background: linear-gradient(to bottom, #ffffff, rgba(160, 32, 240, 0.95) 30%, transparent 80%);
+            box-shadow: 0 0 15px #a020f0, 0 0 30px #800080;
+            animation: laser-sweep2 3.2s infinite alternate-reverse ease-in-out;
+        }
+
+        /* Laser 3: Or (Centre-Droit) */
+        .laser-beam:nth-child(3) {
+            left: 60%;
+            background: linear-gradient(to bottom, #ffffff, rgba(212, 175, 55, 0.9) 30%, transparent 80%);
+            box-shadow: 0 0 15px #d4af37, 0 0 30px #d4af37;
+            animation: laser-sweep1 4.5s infinite alternate-reverse ease-in-out;
+        }
+
+        /* Laser 4: Violet (Droite) */
+        .laser-beam:nth-child(4) {
+            left: 80%;
+            background: linear-gradient(to bottom, #ffffff, rgba(160, 32, 240, 0.95) 30%, transparent 80%);
+            box-shadow: 0 0 15px #a020f0, 0 0 30px #800080;
+            animation: laser-sweep2 3.8s infinite alternate ease-in-out;
+        }
+
+        @keyframes laser-sweep1 {
+            0% { transform: rotate(-55deg) scaleY(0.9); }
+            50% { transform: rotate(0deg) scaleY(1.2); }
+            100% { transform: rotate(55deg) scaleY(0.9); }
+        }
+
+        @keyframes laser-sweep2 {
+            0% { transform: rotate(50deg) scaleY(1.1); }
+            50% { transform: rotate(-10deg) scaleY(0.8); }
+            100% { transform: rotate(-50deg) scaleY(1.1); }
         }
 
         #bg-canvas {
@@ -203,6 +301,93 @@
             background: linear-gradient(135deg, #a824a8, #d4af37);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        /* --- STYLES MUSICAUX --- */
+        .music-styles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .music-style-card {
+            background: var(--card-bg);
+            border: 1px solid #332849;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .music-style-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-gold);
+        }
+
+        .music-style-icon {
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 0.8rem;
+        }
+
+        .music-style-card h4 {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+
+        .music-style-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* --- DÉMARCHE EN 3 ÉTAPES --- */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            border: 1px solid #332849;
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #800080, #d4af37);
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.2rem auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .step-card h4 {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 0.6rem;
+        }
+
+        .step-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
         }
 
         .services-grid {
@@ -395,6 +580,14 @@
 
     <canvas id="bg-canvas"></canvas>
 
+    <!-- Faisceaux Lasers dynamiques en arrière-plan (Violet & Or) -->
+    <div class="laser-container">
+        <div class="laser-beam"></div>
+        <div class="laser-beam"></div>
+        <div class="laser-beam"></div>
+        <div class="laser-beam"></div>
+    </div>
+
     <header>
         <nav>
             <div class="logo-container">
@@ -402,6 +595,8 @@
             </div>
             <ul class="nav-links">
                 <li><a href="#prestations">Tarifs</a></li>
+                <li><a href="#styles">Styles Musicaux</a></li>
+                <li><a href="#reservation">Réservation</a></li>
                 <li><a href="#garanties">Garanties</a></li>
                 <li><a href="#secteur">Secteur</a></li>
                 <li><a href="#contrat">Contrat & Planning</a></li>
@@ -466,6 +661,60 @@
                     <li>✓ Playlists personnalisées</li>
                 </ul>
                 <a href="#contact" class="btn" style="margin-top: 1.5rem;">Réserver 2 Jours</a>
+            </div>
+        </div>
+
+        <!-- SECTION STYLES MUSICAUX -->
+        <div id="styles" style="margin-top: 4rem;">
+            <h2 class="section-title">🎵 Styles Musicaux</h2>
+            <div class="music-styles-grid">
+                <div class="music-style-card">
+                    <div class="music-style-icon"><i class="fas fa-compact-disc"></i></div>
+                    <h4>Années 80, 90 & 2000</h4>
+                    <p>Disco, Funk, Pop, Dance et tous les incontournables des plus belles décennies.</p>
+                </div>
+
+                <div class="music-style-card">
+                    <div class="music-style-icon"><i class="fas fa-music"></i></div>
+                    <h4>Généraliste & Tubes Actuels</h4>
+                    <p>Les Hits 2010 à aujourd'hui pour réunir toutes les générations sur la piste.</p>
+                </div>
+
+                <div class="music-style-card">
+                    <div class="music-style-icon"><i class="fas fa-bolt"></i></div>
+                    <h4>Pop, RnB & Rap</h4>
+                    <p>Urbain, R&B, Hits internationaux et mélodies entraînantes pour chauffer l'ambiance.</p>
+                </div>
+
+                <div class="music-style-card">
+                    <div class="music-style-icon"><i class="fas fa-headphones-alt"></i></div>
+                    <h4>Électro & Clubbing</h4>
+                    <p>Dancefloor, House, EDM et transitions dynamiques pour finir la soirée en beauté.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION RÉSERVATION EN 3 ÉTAPES -->
+        <div id="reservation" style="margin-top: 4rem;">
+            <h2 class="section-title">🚀 Réserver en 3 Étapes Simples</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>Demande de Devis</h4>
+                    <p>Remplissez le formulaire en bas de page pour m'indiquer la date et le lieu de votre événement.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>Devis & Rendez-vous</h4>
+                    <p>Vous recevez votre devis par e-mail, suivi d'un rendez-vous pour signer le contrat et valider la réservation.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>Préparation & Soirée J-J</h4>
+                    <p>Préparez votre planning musical via notre outil dédié et profitez sereinement de votre soirée !</p>
+                </div>
             </div>
         </div>
 
@@ -564,7 +813,7 @@
 
     <footer>
         <p>DJ ICE</p>
-        <p class="legal-info">SIRET:10019807600018</p>
+        <p class="legal-info">SIRET: 10019807600018</p>
         
         <div class="social-icons" style="margin-top: 1.5rem;">
             <a href="https://www.facebook.com/profile.php?id=61585953697891" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -596,9 +845,9 @@
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
                 this.radius = Math.random() * 8 + 3;
-                this.speedX = (Math.random() - 0.5) * 0.3;
-                this.speedY = (Math.random() - 0.5) * 0.3;
-                this.isGold = Math.random() > 0.4;
+                this.speedX = (Math.random() - 0.5) * 0.8;
+                this.speedY = (Math.random() - 0.5) * 0.8;
+                this.isGold = Math.random() > 0.35;
                 this.color = this.isGold ? '212, 175, 55' : '192, 38, 211';
                 this.alpha = Math.random() * 0.4 + 0.15;
             }
@@ -616,7 +865,7 @@
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
                 ctx.fillStyle = `rgba(${this.color}, ${this.alpha})`;
-                ctx.shadowBlur = 18;
+                ctx.shadowBlur = 22;
                 ctx.shadowColor = `rgba(${this.color}, 0.8)`;
                 ctx.fill();
             }
