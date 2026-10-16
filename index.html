@@ -56,9 +56,7 @@
         .contract-box, 
         .contact-form,
         .music-style-card,
-        .step-card,
-        .gallery-card,
-        .admin-panel {
+        .step-card {
             box-shadow: 0 0 25px rgba(128, 0, 128, 0.5), inset 0 0 15px rgba(212, 175, 55, 0.2);
             border: 1px solid var(--accent-gold);
             animation: card-glow 3.5s infinite alternate ease-in-out;
@@ -169,7 +167,6 @@
             align-items: center;
             width: 100%;
             margin-bottom: 0.8rem;
-            cursor: pointer; /* Indique un clic possible sur le logo pour le propriétaire */
         }
 
         .logo-img {
@@ -294,18 +291,6 @@
             box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
 
-        .btn-danger {
-            background: linear-gradient(135deg, #cc0000, #990000);
-            color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.85rem;
-            border: none;
-            cursor: pointer;
-            margin-top: 0.8rem;
-        }
-
         .section {
             padding: 40px 20px 60px;
             max-width: 1100px;
@@ -319,97 +304,6 @@
             background: linear-gradient(135deg, #a824a8, #d4af37);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-
-        /* --- GALERIE PHOTOS ET UPLOAD D'IMAGES --- */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 1.5rem;
-        }
-
-        .gallery-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            position: relative;
-        }
-
-        .gallery-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .gallery-img-wrapper {
-            width: 100%;
-            height: 220px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .gallery-img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .gallery-card:hover .gallery-img-wrapper img {
-            transform: scale(1.08);
-        }
-
-        .gallery-info {
-            padding: 1.2rem;
-            text-align: center;
-        }
-
-        .gallery-info h4 {
-            font-size: 1.15rem;
-            color: var(--accent-gold);
-            margin-bottom: 0.4rem;
-        }
-
-        .gallery-info p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .admin-panel {
-            background: var(--card-bg);
-            padding: 2rem 1.5rem;
-            border-radius: 16px;
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            display: none; /* Masqué par défaut */
-            text-align: center;
-        }
-
-        .admin-panel h3 {
-            color: var(--accent-gold);
-            margin-bottom: 1rem;
-        }
-
-        .upload-dropzone {
-            border: 2px dashed var(--accent-gold);
-            padding: 2rem 1rem;
-            border-radius: 12px;
-            background: rgba(13, 11, 20, 0.6);
-            cursor: pointer;
-            transition: background 0.3s ease;
-            margin-bottom: 1rem;
-        }
-
-        .upload-dropzone:hover {
-            background: rgba(128, 0, 128, 0.2);
-        }
-
-        .upload-dropzone i {
-            font-size: 2.5rem;
-            color: var(--accent-gold);
-            margin-bottom: 0.8rem;
         }
 
         /* --- STYLES MUSICAUX --- */
@@ -700,13 +594,11 @@
 
     <header>
         <nav>
-            <!-- Triple-clic secret sur le logo pour ouvrir l'admin -->
-            <div class="logo-container" id="secret-logo-trigger">
+            <div class="logo-container">
                 <img src="logo.png" alt="DJ ICE - Animation & Sonorisation" class="logo-img">
             </div>
             <ul class="nav-links">
                 <li><a href="#prestations">Tarifs</a></li>
-                <li><a href="#galerie">Galerie</a></li>
                 <li><a href="#styles">Styles Musicaux</a></li>
                 <li><a href="#reservation">Réservation</a></li>
                 <li><a href="#garanties">Garanties</a></li>
@@ -774,35 +666,6 @@
                 </ul>
                 <a href="#contact" class="btn" style="margin-top: 1.5rem;">Réserver 2 Jours</a>
             </div>
-        </div>
-
-        <!-- SECTION GALERIE PHOTOS -->
-        <div id="galerie" style="margin-top: 4rem;">
-            <h2 class="section-title">📸 Nos Installations en Images</h2>
-            <p style="text-align: center; color: var(--text-muted); margin-bottom: 1.5rem;">Aperçu de nos installations son, lumière et matériel professionnel lors de nos prestations.</p>
-
-            <!-- Espace d'importation directe de fichiers images (Uniquement visible si déverrouillé) -->
-            <div id="admin-panel" class="admin-panel">
-                <h3>⚙️ Espace Gestion de la Galerie</h3>
-                
-                <div class="upload-dropzone" onclick="document.getElementById('file-input').click()">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <p style="font-weight: bold; color: #fff;">Cliquez ici pour choisir des photos</p>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">Sélectionnez directement vos photos depuis votre téléphone ou ordinateur</p>
-                </div>
-                
-                <input type="file" id="file-input" accept="image/*" multiple style="display: none;" onchange="handleFileSelect(event)">
-
-                <div class="form-group">
-                    <label for="photo-title-input">Titre (optionnel pour les photos sélectionnées)</label>
-                    <input type="text" id="photo-title-input" placeholder="Ex: Installation Son & Lumière">
-                </div>
-
-                <button class="btn-danger" onclick="toggleAdminPanel()" style="margin-top: 1rem;">🔒 Quitter le Mode Admin</button>
-            </div>
-
-            <!-- Grille de photos affichée dynamiquement -->
-            <div id="gallery-grid" class="gallery-grid"></div>
         </div>
 
         <!-- SECTION STYLES MUSICAUX -->
@@ -963,148 +826,6 @@
     </footer>
 
     <script>
-        /* --- GESTION DYNAMIQUE ET SÉCURISÉE DE LA GALERIE PHOTOS --- */
-        let isAdminLoggedIn = false;
-
-        // Photos d'illustration par défaut
-        const defaultPhotos = [
-            {
-                url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80",
-                title: "Régie DJ & Sonorisation",
-                desc: "Matériel audio puissant et régie pro adaptables à tous types de salles."
-            },
-            {
-                url: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=600&q=80",
-                title: "Show Lumières & Lasers",
-                desc: "Jeux de lumières dynamiques et lasers pour enflammer la piste."
-            },
-            {
-                url: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80",
-                title: "Photobooth & Souvenirs",
-                desc: "Espace d'impression photo instantanée pour des souvenirs inoubliables."
-            }
-        ];
-
-        // Charger les photos enregistrées
-        function getPhotos() {
-            const saved = localStorage.getItem('dj_ice_photos');
-            return saved ? JSON.parse(saved) : defaultPhotos;
-        }
-
-        // Sauvegarder dans le stockage local
-        function savePhotos(photos) {
-            localStorage.setItem('dj_ice_photos', JSON.stringify(photos));
-        }
-
-        // Afficher la galerie
-        function renderGallery() {
-            const grid = document.getElementById('gallery-grid');
-            const photos = getPhotos();
-            grid.innerHTML = '';
-
-            photos.forEach((photo, index) => {
-                const card = document.createElement('div');
-                card.className = 'gallery-card';
-
-                card.innerHTML = `
-                    <div class="gallery-img-wrapper">
-                        <img src="${photo.url}" alt="${photo.title}">
-                    </div>
-                    <div class="gallery-info">
-                        <h4>${photo.title}</h4>
-                        <p>${photo.desc || ''}</p>
-                        ${isAdminLoggedIn ? `<button class="btn-danger" onclick="deletePhoto(${index})"><i class="fas fa-trash"></i> Supprimer</button>` : ''}
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        // Activer / Désactiver le panneau d'administration
-        function toggleAdminPanel() {
-            if (!isAdminLoggedIn) {
-                const password = prompt("Veuillez saisir le mot de passe administrateur :");
-                if (password === "200023") {
-                    isAdminLoggedIn = true;
-                    document.getElementById('admin-panel').style.display = 'block';
-                    renderGallery();
-                    document.getElementById('galerie').scrollIntoView({ behavior: 'smooth' });
-                } else if (password !== null) {
-                    alert("Mot de passe incorrect.");
-                }
-            } else {
-                isAdminLoggedIn = false;
-                document.getElementById('admin-panel').style.display = 'none';
-                renderGallery();
-            }
-        }
-
-        /* --- DECLENCHEURS SECRETS POUR ACCÉDER À L'ADMIN --- */
-        
-        // 1. Déclencheur par Triple-clic sur le Logo (pour Téléphones et Ordinateurs)
-        let clickCount = 0;
-        let clickTimer = null;
-        document.getElementById('secret-logo-trigger').addEventListener('click', function() {
-            clickCount++;
-            if (clickCount === 1) {
-                clickTimer = setTimeout(() => { clickCount = 0; }, 1000);
-            } else if (clickCount === 3) {
-                clearTimeout(clickTimer);
-                clickCount = 0;
-                toggleAdminPanel();
-            }
-        });
-
-        // 2. Déclencheur par Clavier : Touche "A" (pour Ordinateurs)
-        window.addEventListener('keydown', function(e) {
-            // Empêcher le déclenchement si l'utilisateur écrit dans un champ de formulaire
-            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
-            
-            if (e.key === 'a' || e.key === 'A') {
-                toggleAdminPanel();
-            }
-        });
-
-        // Traiter les fichiers images sélectionnés
-        function handleFileSelect(event) {
-            const files = event.target.files;
-            if (!files || files.length === 0) return;
-
-            const userTitle = document.getElementById('photo-title-input').value.trim() || "Installation DJ ICE";
-            const photos = getPhotos();
-
-            Array.from(files).forEach(file => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    photos.push({
-                        url: e.target.result,
-                        title: userTitle,
-                        desc: "Installation ajoutée"
-                    });
-                    savePhotos(photos);
-                    renderGallery();
-                };
-                reader.readAsDataURL(file);
-            });
-
-            alert("✅ Photo(s) ajoutée(s) avec succès !");
-            event.target.value = '';
-        }
-
-        // Supprimer une photo
-        function deletePhoto(index) {
-            if (confirm("Voulez-vous vraiment supprimer cette photo ?")) {
-                const photos = getPhotos();
-                photos.splice(index, 1);
-                savePhotos(photos);
-                renderGallery();
-            }
-        }
-
-        // Initialisation au chargement
-        renderGallery();
-
-
         /* --- CANVAS PARTICULES EN ARRIÈRE-PLAN --- */
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
