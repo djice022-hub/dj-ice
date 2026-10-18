@@ -10,6 +10,10 @@
     
     <!-- Chargement des icônes Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Firebase App & Database SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     
     <style>
         :root {
@@ -1001,7 +1005,7 @@
                 <textarea id="message" name="Message" rows="5" required placeholder="Date, lieu..."></textarea>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; text-align: center;">
-                📩 Un devis personnalisé vous sera transmis par e-mail après réception de votre demande.
+                📩 Un devis personnalisé vous sera transmitted par e-mail après réception de votre demande.
             </p>
             <button type="submit" class="btn" style="width: 100%;">Envoyer la demande</button>
         </form>
@@ -1018,6 +1022,30 @@
     </footer>
 
     <script>
+        /* --- INITIALISATION FIREBASE --- */
+        const firebaseConfig = {
+            databaseURL: "https://dj-ice-e1ca9-default-rtdb.firebaseio.com"
+        };
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.database();
+        const bookedRef = db.ref('bookedDates');
+
+        let bookedDatesList = [];
+
+        // Écoute en temps réel des changements Firebase pour TOUS les visiteurs
+        bookedRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                bookedDatesList = Array.isArray(data) ? data : Object.values(data);
+            } else {
+                bookedDatesList = [];
+            }
+            renderCalendar();
+        });
+
         /* --- GESTION DU CALENDRIER ET MODE ADMIN CACHÉ --- */
         let currentYear = 2027;
         let currentMonth = 6; // Juillet (0 = Janvier)
@@ -1028,20 +1056,9 @@
             "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
         ];
 
-        // Charger les dates réservées depuis le localStorage
-        function getBookedDates() {
-            const saved = localStorage.getItem('dj_ice_booked_dates');
-            return saved ? JSON.parse(saved) : ["2027-07-24"];
-        }
-
-        function saveBookedDates(dates) {
-            localStorage.setItem('dj_ice_booked_dates', JSON.stringify(dates));
-        }
-
         function renderCalendar() {
             const monthYearTitle = document.getElementById('calendar-month-year');
             const daysGrid = document.getElementById('calendar-days');
-            const bookedDates = getBookedDates();
             
             monthYearTitle.innerText = `${monthNames[currentMonth]} ${currentYear}`;
             daysGrid.innerHTML = '';
@@ -1062,7 +1079,7 @@
                 const dayStr = String(day).padStart(2, '0');
                 const dateKey = `${currentYear}-${monthStr}-${dayStr}`;
 
-                if (bookedDates.includes(dateKey)) {
+                if (bookedDatesList.includes(dateKey)) {
                     dayCell.className = 'cal-day booked';
                 } else {
                     dayCell.className = 'cal-day available';
@@ -1091,14 +1108,15 @@
         }
 
         function setDateStatus(dateKey, isBooked) {
-            let dates = getBookedDates();
+            let dates = [...bookedDatesList];
             if (isBooked) {
                 if (!dates.includes(dateKey)) dates.push(dateKey);
             } else {
                 dates = dates.filter(d => d !== dateKey);
             }
-            saveBookedDates(dates);
-            renderCalendar();
+            
+            // Sauvegarde globale dans Firebase en temps réel
+            bookedRef.set(dates);
         }
 
         function changeMonth(direction) {
