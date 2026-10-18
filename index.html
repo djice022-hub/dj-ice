@@ -312,7 +312,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* --- STYLES CALENDRIER (VIOLET = RÉSERVÉ, OR = DISPONIBLE) --- */
+        /* --- STYLES CALENDRIER --- */
         .calendar-box {
             background: var(--card-bg);
             padding: 2rem;
@@ -386,13 +386,11 @@
             border: none;
         }
 
-        /* DISPONIBLE = OR */
         .cal-day.available {
             border: 1px solid var(--accent-gold);
             color: var(--accent-gold);
         }
 
-        /* RÉSERVÉ = VIOLET */
         .cal-day.booked {
             background: rgba(128, 0, 128, 0.6);
             border: 1px solid #d870d8;
@@ -663,13 +661,25 @@
             margin-right: auto;
         }
 
+        /* --- DESIGN AMÉLIORÉ DU FORMULAIRE --- */
         .contact-form {
             background: var(--card-bg);
-            padding: 2rem;
+            padding: 2.5rem 2rem;
             border-radius: 16px;
             border: 1px solid #332849;
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            min-width: 240px;
         }
 
         .form-group {
@@ -680,15 +690,25 @@
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #fff;
+            font-size: 0.95rem;
         }
 
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
-            padding: 0.8rem;
+            padding: 0.85rem;
             border-radius: 8px;
             border: 1px solid #332849;
             background-color: #0d0b14;
             color: #fff;
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-gold);
         }
 
         footer {
@@ -729,6 +749,10 @@
 
             .cal-day.booked::after {
                 font-size: 0.55rem;
+            }
+
+            .contact-form {
+                padding: 1.5rem 1rem;
             }
         }
     </style>
@@ -824,7 +848,7 @@
 
         <!-- SECTION CALENDRIER DE DISPONIBILITÉS -->
         <div id="disponibilites" style="margin-top: 4rem;">
-            <h2 class="section-title">📅 Disponibilités</h2>
+            <h2 class="section-title">📅 Planning & Disponibilités</h2>
             
             <div class="calendar-box" id="calendar-container">
                 <div id="admin-banner" class="admin-status-banner">
@@ -965,49 +989,87 @@
 
     </section>
 
-    <!-- Formulaire de Contact -->
+    <!-- Formulaire de Contact Amélioré -->
     <section id="contact" class="section" style="padding-top: 0;">
-        <h2 class="section-title">Demande de Devis</h2>
+        <h2 class="section-title">Demande de Devis Gratuite</h2>
         
         <form action="https://formspree.io/f/mwlpoerz" method="POST" class="contact-form">
-            <div class="form-group">
-                <label for="name">Nom / Prénom</label>
-                <input type="text" id="name" name="Nom" required placeholder="Votre nom">
-            </div>
-            <div class="form-group">
-                <label for="email">Adresse Email</label>
-                <input type="email" id="email" name="Email" required placeholder="votre@email.com">
-            </div>
             
-            <div class="form-group">
-                <label for="billing-address">Adresse de facturation</label>
-                <textarea id="billing-address" name="Adresse de facturation" rows="3" placeholder="Numéro, rue, code postal, ville..."></textarea>
+            <!-- Redirection automatique vers la page du planning de soirée après envoi -->
+            <input type="hidden" name="_next" value="https://djice022-hub.github.io/Planning-de-Soir-e/">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="name"><i class="fas fa-user" style="color: var(--accent-gold);"></i> Nom & Prénom *</label>
+                    <input type="text" id="name" name="Nom et Prénom" required placeholder="Ex: Jean Dupont">
+                </div>
+                <div class="form-group">
+                    <label for="phone"><i class="fas fa-phone" style="color: var(--accent-gold);"></i> Téléphone *</label>
+                    <input type="tel" id="phone" name="Téléphone" required placeholder="Ex: 06 12 34 56 78">
+                </div>
             </div>
 
             <div class="form-group">
-                <label for="evenement">Type d'Événement</label>
-                <select id="evenement" name="Type d'evenement">
-                    <option value="Mariage">💍 Mariage</option>
-                    <option value="Anniversaire">🎂 Anniversaire</option>
-                    <option value="Soirée Privée">🎧 Soirée Privée</option>
-                    <option value="Autre">🎉 Autre événement</option>
-                </select>
+                <label for="email"><i class="fas fa-envelope" style="color: var(--accent-gold);"></i> Adresse Email *</label>
+                <input type="email" id="email" name="Email" required placeholder="votre@email.com">
             </div>
+
             <div class="form-group">
-                <label for="formule">Formule Souhaitée</label>
-                <select id="formule" name="Formule">
-                    <option value="1 Jour - 400 €">Formule 1 Jour - 400 €</option>
-                    <option value="2 Jours - 800 €">Formule 2 Jours - 800 €</option>
-                </select>
+                <label for="billing-address"><i class="fas fa-map-marker-alt" style="color: var(--accent-gold);"></i> Adresse de facturation</label>
+                <textarea id="billing-address" name="Adresse de facturation" rows="2" placeholder="Numéro, rue, code postal, ville..."></textarea>
             </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="evenement"><i class="fas fa-glass-cheers" style="color: var(--accent-gold);"></i> Type d'Événement</label>
+                    <select id="evenement" name="Type d'événement">
+                        <option value="Mariage">💍 Mariage</option>
+                        <option value="Anniversaire">🎂 Anniversaire</option>
+                        <option value="Soirée Privée">🎧 Soirée Privée</option>
+                        <option value="Autre">🎉 Autre événement</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="formule"><i class="fas fa-star" style="color: var(--accent-gold);"></i> Formule Souhaitée</label>
+                    <select id="formule" name="Formule">
+                        <option value="1 Jour - 400 €">Formule 1 Jour - 400 €</option>
+                        <option value="2 Jours - 800 €">Formule 2 Jours - 800 €</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="event-date"><i class="fas fa-calendar-alt" style="color: var(--accent-gold);"></i> Date de l'événement *</label>
+                    <input type="date" id="event-date" name="Date de l'événement" required>
+                </div>
+                <div class="form-group">
+                    <label for="location"><i class="fas fa-building" style="color: var(--accent-gold);"></i> Ville / Lieu de la salle</label>
+                    <input type="text" id="location" name="Lieu de la salle" placeholder="Ex: Salle des fêtes de Courchelettes">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="start-time"><i class="fas fa-clock" style="color: var(--accent-gold);"></i> Heure de début estimée</label>
+                    <input type="time" id="start-time" name="Heure de début" value="19:00">
+                </div>
+                <div class="form-group">
+                    <label for="end-time"><i class="fas fa-moon" style="color: var(--accent-gold);"></i> Heure de fin estimée</label>
+                    <input type="time" id="end-time" name="Heure de fin" value="04:00">
+                </div>
+            </div>
+
             <div class="form-group">
-                <label for="message">Détails de l'événement</label>
-                <textarea id="message" name="Message" rows="5" required placeholder="Date, lieu..."></textarea>
+                <label for="message"><i class="fas fa-comment-alt" style="color: var(--accent-gold);"></i> Précisions / Demandes particulières</label>
+                <textarea id="message" name="Message et précisions" rows="4" placeholder="Indiquez vos besoins particuliers, préférences musicales, nombre d'invités estimé..."></textarea>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; text-align: center;">
-                📩 Un devis personnalisé vous sera transmis par e-mail après réception de votre demande.
+
+            <p style="font-size: 0.9rem; color: var(--accent-gold); margin-bottom: 1.2rem; text-align: center; font-weight: 500;">
+                ⚡ Un devis détaillé vous sera envoyé par e-mail sous 24h à 48h.
             </p>
-            <button type="submit" class="btn" style="width: 100%;">Envoyer la demande</button>
+
+            <button type="submit" class="btn" style="width: 100%;">Envoyer ma demande de devis</button>
         </form>
     </section>
 
