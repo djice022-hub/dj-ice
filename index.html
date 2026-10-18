@@ -56,7 +56,8 @@
         .contract-box, 
         .contact-form,
         .music-style-card,
-        .step-card {
+        .step-card,
+        .calendar-box {
             box-shadow: 0 0 25px rgba(128, 0, 128, 0.5), inset 0 0 15px rgba(212, 175, 55, 0.2);
             border: 1px solid var(--accent-gold);
             animation: card-glow 3.5s infinite alternate ease-in-out;
@@ -167,6 +168,7 @@
             align-items: center;
             width: 100%;
             margin-bottom: 0.8rem;
+            cursor: pointer;
         }
 
         .logo-img {
@@ -304,6 +306,144 @@
             background: linear-gradient(135deg, #a824a8, #d4af37);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        /* --- STYLES CALENDRIER (VIOLET = RÉSERVÉ, OR = DISPONIBLE) --- */
+        .calendar-box {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+            text-align: center;
+            user-select: none;
+        }
+
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+        }
+
+        .calendar-header h3 {
+            font-size: 1.4rem;
+            color: var(--accent-gold);
+        }
+
+        .calendar-btn-nav {
+            background: rgba(13, 11, 20, 0.8);
+            border: 1px solid var(--accent-gold);
+            color: #fff;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-btn-nav:hover {
+            background: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            font-weight: bold;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .calendar-days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+        }
+
+        .cal-day {
+            padding: 0.7rem 0.2rem;
+            border-radius: 8px;
+            background: rgba(13, 11, 20, 0.6);
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 52px;
+            transition: all 0.2s ease;
+        }
+
+        .cal-day.empty {
+            background: transparent;
+            border: none;
+        }
+
+        /* DISPONIBLE = OR */
+        .cal-day.available {
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        /* RÉSERVÉ = VIOLET */
+        .cal-day.booked {
+            background: rgba(128, 0, 128, 0.6);
+            border: 1px solid #d870d8;
+            color: #fff;
+            box-shadow: 0 0 12px rgba(128, 0, 128, 0.8);
+        }
+
+        .cal-day.booked::after {
+            content: "Réservé";
+            font-size: 0.65rem;
+            color: #f3d1f3;
+            margin-top: 2px;
+            font-weight: bold;
+        }
+
+        .admin-mode .cal-day:not(.empty) {
+            cursor: pointer;
+        }
+
+        .admin-mode .cal-day:not(.empty):hover {
+            transform: scale(1.08);
+            border-color: #fff;
+        }
+
+        .admin-status-banner {
+            display: none;
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 0.6rem;
+            border-radius: 8px;
+            margin-bottom: 1.2rem;
+            font-size: 0.88rem;
+            font-weight: bold;
+        }
+
+        .calendar-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
         }
 
         /* --- STYLES MUSICAUX --- */
@@ -577,6 +717,15 @@
             .price {
                 font-size: 2.1rem;
             }
+
+            .cal-day {
+                min-height: 44px;
+                font-size: 0.8rem;
+            }
+
+            .cal-day.booked::after {
+                font-size: 0.55rem;
+            }
         }
     </style>
 </head>
@@ -594,11 +743,12 @@
 
     <header>
         <nav>
-            <div class="logo-container">
+            <div class="logo-container" id="secret-logo-trigger" title="DJ ICE">
                 <img src="logo.png" alt="DJ ICE - Animation & Sonorisation" class="logo-img">
             </div>
             <ul class="nav-links">
                 <li><a href="#prestations">Tarifs</a></li>
+                <li><a href="#disponibilites">Disponibilités</a></li>
                 <li><a href="#styles">Styles Musicaux</a></li>
                 <li><a href="#reservation">Réservation</a></li>
                 <li><a href="#garanties">Garanties</a></li>
@@ -665,6 +815,48 @@
                     <li>✓ Playlists personnalisées</li>
                 </ul>
                 <a href="#contact" class="btn" style="margin-top: 1.5rem;">Réserver 2 Jours</a>
+            </div>
+        </div>
+
+        <!-- SECTION CALENDRIER DE DISPONIBILITÉS -->
+        <div id="disponibilites" style="margin-top: 4rem;">
+            <h2 class="section-title">📅 Planning & Disponibilités</h2>
+            
+            <div class="calendar-box" id="calendar-container">
+                <div id="admin-banner" class="admin-status-banner">
+                    ⚙️ MODE ADMIN ACTIF :<br>
+                    • <b>Clic Gauche</b> sur un jour = Marquer en <b>RÉSERVÉ</b> (Violet) 🟣<br>
+                    • <b>Clic Droit</b> sur un jour = Marquer en <b>DISPONIBLE</b> (Or) 🟡
+                </div>
+
+                <div class="calendar-header">
+                    <button class="calendar-btn-nav" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i> Précédent</button>
+                    <h3 id="calendar-month-year">Juillet 2027</h3>
+                    <button class="calendar-btn-nav" onclick="changeMonth(1)">Suivant <i class="fas fa-chevron-right"></i></button>
+                </div>
+
+                <div class="calendar-weekdays">
+                    <div>Lun</div>
+                    <div>Mar</div>
+                    <div>Mer</div>
+                    <div>Jeu</div>
+                    <div>Ven</div>
+                    <div>Sam</div>
+                    <div>Dim</div>
+                </div>
+
+                <div id="calendar-days" class="calendar-days-grid"></div>
+
+                <div class="calendar-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: transparent; border: 1px solid var(--accent-gold);"></div>
+                        <span style="color: var(--accent-gold);">Disponible (Or)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: rgba(128, 0, 128, 0.8); border: 1px solid #d870d8;"></div>
+                        <span style="color: #f3d1f3;">Réservé (Violet)</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -826,6 +1018,147 @@
     </footer>
 
     <script>
+        /* --- GESTION DU CALENDRIER ET MODE ADMIN CACHÉ --- */
+        let currentYear = 2027;
+        let currentMonth = 6; // Juillet (0 = Janvier)
+        let isAdminLoggedIn = false;
+
+        const monthNames = [
+            "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+            "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+        ];
+
+        // Charger les dates réservées depuis le localStorage
+        function getBookedDates() {
+            const saved = localStorage.getItem('dj_ice_booked_dates');
+            return saved ? JSON.parse(saved) : ["2027-07-24"];
+        }
+
+        function saveBookedDates(dates) {
+            localStorage.setItem('dj_ice_booked_dates', JSON.stringify(dates));
+        }
+
+        function renderCalendar() {
+            const monthYearTitle = document.getElementById('calendar-month-year');
+            const daysGrid = document.getElementById('calendar-days');
+            const bookedDates = getBookedDates();
+            
+            monthYearTitle.innerText = `${monthNames[currentMonth]} ${currentYear}`;
+            daysGrid.innerHTML = '';
+
+            const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+            const adjustedFirstDay = (firstDayIndex === 0) ? 6 : firstDayIndex - 1;
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            for (let i = 0; i < adjustedFirstDay; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'cal-day empty';
+                daysGrid.appendChild(emptyCell);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCell = document.createElement('div');
+                const monthStr = String(currentMonth + 1).padStart(2, '0');
+                const dayStr = String(day).padStart(2, '0');
+                const dateKey = `${currentYear}-${monthStr}-${dayStr}`;
+
+                if (bookedDates.includes(dateKey)) {
+                    dayCell.className = 'cal-day booked';
+                } else {
+                    dayCell.className = 'cal-day available';
+                }
+
+                dayCell.innerText = day;
+
+                // Clic Gauche : Marquer RÉSERVÉ (Violet)
+                dayCell.addEventListener('click', (e) => {
+                    if (isAdminLoggedIn) {
+                        e.preventDefault();
+                        setDateStatus(dateKey, true);
+                    }
+                });
+
+                // Clic Droit : Marquer DISPONIBLE (Or)
+                dayCell.addEventListener('contextmenu', (e) => {
+                    if (isAdminLoggedIn) {
+                        e.preventDefault();
+                        setDateStatus(dateKey, false);
+                    }
+                });
+
+                daysGrid.appendChild(dayCell);
+            }
+        }
+
+        function setDateStatus(dateKey, isBooked) {
+            let dates = getBookedDates();
+            if (isBooked) {
+                if (!dates.includes(dateKey)) dates.push(dateKey);
+            } else {
+                dates = dates.filter(d => d !== dateKey);
+            }
+            saveBookedDates(dates);
+            renderCalendar();
+        }
+
+        function changeMonth(direction) {
+            currentMonth += direction;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar();
+        }
+
+        // Déverrouillage Admin Secret (Triple-clic sur le Logo ou Touche 'A')
+        function triggerAdminLogin() {
+            if (!isAdminLoggedIn) {
+                const pwd = prompt("Mot de passe administrateur :");
+                if (pwd === "200023") {
+                    isAdminLoggedIn = true;
+                    document.getElementById('calendar-container').classList.add('admin-mode');
+                    document.getElementById('admin-banner').style.display = 'block';
+                    renderCalendar();
+                    document.getElementById('disponibilites').scrollIntoView({ behavior: 'smooth' });
+                } else if (pwd !== null) {
+                    alert("Mot de passe incorrect.");
+                }
+            } else {
+                isAdminLoggedIn = false;
+                document.getElementById('calendar-container').classList.remove('admin-mode');
+                document.getElementById('admin-banner').style.display = 'none';
+                renderCalendar();
+            }
+        }
+
+        // Triple-clic sur le logo
+        let clickCount = 0;
+        let clickTimer = null;
+        document.getElementById('secret-logo-trigger').addEventListener('click', () => {
+            clickCount++;
+            if (clickCount === 1) {
+                clickTimer = setTimeout(() => { clickCount = 0; }, 1000);
+            } else if (clickCount === 3) {
+                clearTimeout(clickTimer);
+                clickCount = 0;
+                triggerAdminLogin();
+            }
+        });
+
+        // Touche 'A' pour ouvrir le mot de passe admin
+        window.addEventListener('keydown', (e) => {
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
+            if (e.key === 'a' || e.key === 'A') {
+                triggerAdminLogin();
+            }
+        });
+
+        renderCalendar();
+
+
         /* --- CANVAS PARTICULES EN ARRIÈRE-PLAN --- */
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
